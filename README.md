@@ -19,3 +19,26 @@ Al intentar resolver tickets urgentes, el sistema se quedaba en estado de carga 
 
 📁 Archivo: route.ts (GET)
 Se detectó una fuga de datos que permitía a usuarios visualizar tickets de otras empresas. El problema se originaba por el uso de un identificador de empresa hardcodeado, en lugar de obtenerlo dinámicamente desde el contexto del usuario. La solución fue implementar un filtro basado en el companyId del usuario (simulado en este caso), garantizando el aislamiento de datos y evitando el acceso no autorizado entre empresas.
+
+
+****************************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+⚙️ Configuración de variables de entorno
+
+Antes de ejecutar el proyecto, es necesario crear un archivo .env en la raíz del proyecto.
+
+📄 Crear archivo .env
+
+Crea un archivo llamado:
+
+.env
+
+Y agrega la siguiente variable de entorno:
+
+DATABASE_URL="file:./dev.db"
+
+
+****************************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+Clona este repositorio e instala las dependencias (npm install).
+Levanta la base de datos local poblada de prueba (npm run db:setup) y el servidor (npm run dev).
