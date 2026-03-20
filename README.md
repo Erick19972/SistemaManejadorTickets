@@ -1,33 +1,21 @@
-# Coding Challenge: Soporte TechCorp 🚨
+Problemas Identificados y Soluciones
 
-¡Hola! Gracias por aplicar. Para esta prueba técnica, queremos simular un escenario real de nuestro día a día. No hay requerimientos abstractos, sino un problema real de soporte que debes resolver.
+🧾 Ticket 1 — Botón "Resolver" no funciona en móvil
 
-Se evaluará tu capacidad para:
-- Entender código existente (Node.js, React/Next.js, Tailwind).
-- Utilizar herramientas de IA (Claude, Cursor, Gemini, etc.) para acelerar tu diagnóstico y resolución.
-- Priorizar tareas críticas bajo presión.
-- Mantener el orden y las buenas prácticas al corregir bugs.
+📁 Archivo: page.tsx
+El problema consistía en que el botón de “Resolver Ticket” no era funcional en dispositivos móviles. Esto ocurría porque el footer fijo se superponía al contenido, ocultando parcialmente el último ticket y bloqueando la interacción del usuario. La causa fue la ausencia de espacio inferior en el contenedor principal. Se solucionó agregando un padding inferior, lo que permitió que el contenido se desplazara correctamente y que el botón fuera accesible.
 
-## El Contexto
+🔄 Ticket 2 — No se actualizan los tickets
 
-Acabas de iniciar tu día y recibes el siguiente mensaje por Slack de José (Project Manager):
+📁 Archivo: page.tsx
+El sistema no reflejaba los cambios al resolver un ticket a menos que se recargara la página. Esto se debía a una mutación directa del estado en React, lo cual impide que el framework detecte cambios y vuelva a renderizar la interfaz. La solución consistió en aplicar una actualización inmutable del estado, generando un nuevo arreglo con los datos actualizados, lo que permitió que la UI reaccionara correctamente.
 
-> **De:** José
-> **Para:** Equipo de Soporte
-> 
-> "Hola chicos, buenos días. Les paso contexto de unos inconvenientes urgentes que tenemos en la plataforma de TechCorp. Austin (del cliente) me indica que no puede ingresar a resolver los tickets desde su celular, el botón de 'Resolver' simplemente no le hace nada. 
->
-> Además, al parecer están teniendo que recargar toda la página para ver cuando un ticket cambia de estado. Es un tema urgente porque las personas de soporte de ellos no pueden gestionar los casos marcados como 'Urgente', dicen que el sistema se queda cargando y nunca termina. Ya estoy creando los tickets en Jira.
-> 
-> Y por último, y esto es lo más crítico: me acaban de confirmar que un usuario pudo ver los tickets de OTRA empresa. Necesitamos revisar qué está interfiriendo ahí con la base de datos o el servicio, no podemos tener esa fuga de datos.
->
-> Me confirman cuando lo tengan listo para coordinar pruebas finales con ellos. Mil gracias."
+🚨 Ticket 3 — Tickets urgentes se quedan cargando
 
-## Tu Misión
+📁 Archivo: route.ts (PATCH)
+Al intentar resolver tickets urgentes, el sistema se quedaba en estado de carga infinita. Esto ocurría porque una promesa en el backend nunca se resolvía, bloqueando el flujo de ejecución del endpoint. Se solucionó asegurando que la promesa se resolviera correctamente, permitiendo que el proceso continuara y que la API respondiera al cliente.
 
-1. Clona este repositorio e instala las dependencias (`npm install`).
-2. Levanta la base de datos local poblada de prueba (`npm run db:setup`) y el servidor (`npm run dev`).
-3. Identifica y resuelve los 4 problemas mencionados por José en su mensaje.
-4. Sube tu código a un repositorio público (GitHub/GitLab) y envíanos el enlace.
+🔒 Ticket 4 — Fuga de datos entre empresas
 
-**Nota:** Tienes total libertad de usar herramientas de IA para apoyarte. Lo que nos importa es cómo analizas el problema, cómo guías a la IA y la calidad de la solución final. ¡Éxitos!
+📁 Archivo: route.ts (GET)
+Se detectó una fuga de datos que permitía a usuarios visualizar tickets de otras empresas. El problema se originaba por el uso de un identificador de empresa hardcodeado, en lugar de obtenerlo dinámicamente desde el contexto del usuario. La solución fue implementar un filtro basado en el companyId del usuario (simulado en este caso), garantizando el aislamiento de datos y evitando el acceso no autorizado entre empresas.
